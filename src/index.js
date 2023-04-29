@@ -2,45 +2,62 @@ import "./style.css";
 import { Key } from "./myKey";
 
 class Weather {
-  constructor(name) {
-    this.name = name;
+  constructor(
+    city,
+    condition,
+    condition_icon,
+    country,
+    humidity,
+    local_time,
+    celsiusData,
+    fahrenheitData
+  ) {
+    this.city = city;
+    this.condition = condition;
+    this.condition_icon = condition_icon;
+    this.country = country;
+    this.humidity = humidity;
+    this.local_time = local_time;
+    this.celsiusData = celsiusData;
+    this.fahrenheitData = fahrenheitData;
   }
 
   test() {
-    console.log(this.name);
+    console.log(
+      this.city + "\n",
+      this.condition + "\n",
+      this.condition_icon + "\n",
+      this.country + "\n",
+      this.humidity + "\n",
+      this.local_time + "\n",
+      this.celsiusData + "\n",
+      this.fahrenheitData + "\n"
+    );
   }
 }
 
-let user1 = new Weather("qwe");
-user1.test();
-
-//Weather in celsius
-class CelsiusWeather extends Weather {
-  constructor(name) {
-    super(name);
+class dailyForecast {
+  constructor(dailyForecast) {
+    this.dailyForecast = dailyForecast;
   }
-
-  // test() {
-  //   console.log(this.name);
-  // }
-}
-
-let user2 = new CelsiusWeather("asd");
-user2.test();
-
-//Weather in Fahrenheit
-class FahrenheitWeather extends Weather {
-  constructor(name) {
-    super(name);
+  test() {
+    console.log(this.dailyForecast);
   }
-
-  // test() {
-  //   console.log(this.name);
-  // }
 }
-
-let user3 = new FahrenheitWeather("zxc");
-user3.test();
+class hourlyForecast {
+  constructor(hourlyForecast) {
+    this.hourlyForecast = hourlyForecast;
+  }
+  test() {
+    console.log(this.hourlyForecast);
+  }
+}
+const testinput = document.getElementById("location").value;
+const searchButton = document.getElementById("searchButton");
+searchButton.addEventListener("click", (event) => {
+  event.preventDefault();
+  console.log(testinput);
+});
 
 async function apiRequest(whatLocation) {
   try {
@@ -80,19 +97,24 @@ async function apiRequest(whatLocation) {
         forecast_per_hour_Fahrenheit: {},
       },
     };
-    for (let i = 0; i < 3; i++) {
-      DataObject.forecast.forecast_per_day_Celsius["day" + i] = {
-        date: response.forecast.forecastday[i].date,
-        min_temp: response.forecast.forecastday[i].day.mintemp_c,
-        max_temp: response.forecast.forecastday[i].day.maxtemp_c,
-      };
+    function forecastPerDayCelsius() {
+      for (let i = 0; i < 3; i++) {
+        DataObject.forecast.forecast_per_day_Celsius["day" + i] = {
+          date: response.forecast.forecastday[i].date,
+          min_temp: response.forecast.forecastday[i].day.mintemp_c,
+          max_temp: response.forecast.forecastday[i].day.maxtemp_c,
+        };
+      }
     }
-    for (let i = 0; i < 3; i++) {
-      DataObject.forecast.forecast_per_day_Fahrenheit["day" + i] = {
-        date: response.forecast.forecastday[i].date,
-        min_temp: response.forecast.forecastday[i].day.mintemp_f,
-        max_temp: response.forecast.forecastday[i].day.maxtemp_f,
-      };
+
+    function forecastPerDayFahrenheit() {
+      for (let i = 0; i < 3; i++) {
+        DataObject.forecast.forecast_per_day_Fahrenheit["day" + i] = {
+          date: response.forecast.forecastday[i].date,
+          min_temp: response.forecast.forecastday[i].day.mintemp_f,
+          max_temp: response.forecast.forecastday[i].day.maxtemp_f,
+        };
+      }
     }
     function forecastPerHourCelsius() {
       for (let i = 0; i < 3; i++) {
@@ -130,6 +152,8 @@ async function apiRequest(whatLocation) {
         }
       }
     }
+    forecastPerDayCelsius();
+    forecastPerDayFahrenheit();
     forecast_per_hour_Fahrenheit();
     forecastPerHourCelsius();
     return DataObject;
@@ -138,6 +162,26 @@ async function apiRequest(whatLocation) {
   }
 }
 apiRequest("London").then((data) => {
-  user2.test();
+  const { city, condition, condition_icon, country, humidity, local_time } =
+    data.basic_data;
+  const currentCelsiusData = data.celsius;
+  const currentFahrenheitData = data.fahrenheit;
+  const dailyForecastData = data.forecast.forecast_per_day_Celsius;
+  const hourlyForecastData = data.forecast.forecast_per_hour_Celsius;
+  const currenWeather = new Weather(
+    city,
+    condition,
+    condition_icon,
+    country,
+    humidity,
+    local_time,
+    currentCelsiusData,
+    currentFahrenheitData
+  );
+  const dailyForecastObject = new dailyForecast(dailyForecastData);
+  const hourlyForecastObject = new hourlyForecast(hourlyForecastData);
+  currenWeather.test();
+  dailyForecastObject.test();
+  hourlyForecastObject.test();
   console.log(data);
 });
