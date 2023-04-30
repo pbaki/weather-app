@@ -54,14 +54,11 @@ class hourlyForecast {
 }
 
 function takeLocation() {
-  let testinput = document.getElementById("location");
-  let inputvalue = "London";
-  testinput.setAttribute("value", inputvalue);
   const searchButton = document.getElementById("searchButton");
   searchButton.addEventListener("click", (event) => {
     event.preventDefault();
-    console.log(testinput.value);
-    fireRequest(inputvalue);
+    let testinput = document.getElementById("location").value;
+    fireRequest(testinput);
   });
 }
 takeLocation();
