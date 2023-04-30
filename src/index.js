@@ -21,17 +21,29 @@ class Weather {
     this.celsiusData = celsiusData;
     this.fahrenheitData = fahrenheitData;
   }
+  celsiusDataLog() {
+    console.log(
+      "Feels Like: " + this.celsiusData.feelslike + " C" + "\n",
+      "Temperature: " + this.celsiusData.temperature + " C" + "\n",
+      "Wind Speed: " + this.celsiusData.wind + " kph" + "\n"
+    );
+  }
+  fahrenheitDataLog() {
+    console.log(
+      "Feels Like: " + this.fahrenheitData.feelslike + " F" + "\n",
+      "Temperature: " + this.fahrenheitData.temperature + " F" + "\n",
+      "Wind Speed: " + this.fahrenheitData.wind + " mph" + "\n"
+    );
+  }
 
-  test() {
+  basicDataLog() {
     console.log(
       this.city + "\n",
       this.condition + "\n",
       this.condition_icon + "\n",
       this.country + "\n",
       this.humidity + "\n",
-      this.local_time + "\n",
-      this.celsiusData + "\n",
-      this.fahrenheitData + "\n"
+      this.local_time + "\n"
     );
   }
 }
@@ -53,6 +65,7 @@ class hourlyForecast {
   }
 }
 
+//button taking location from input that fire api request and log data
 function takeLocation() {
   const searchButton = document.getElementById("searchButton");
   searchButton.addEventListener("click", (event) => {
@@ -72,7 +85,6 @@ async function apiRequest(whatLocation) {
       }
     );
     const response = await request.json();
-    console.log(response);
     const DataObject = {
       basic_data: {
         country: response.location.country,
@@ -165,9 +177,11 @@ function fireRequest(inputvalue) {
     );
     const dailyForecastObject = new dailyForecast(dailyForecastData);
     const hourlyForecastObject = new hourlyForecast(hourlyForecastData);
-    currenWeather.test();
-    dailyForecastObject.test();
-    hourlyForecastObject.test();
-    console.log(data);
+    //dailyForecastObject.test();
+    //hourlyForecastObject.test();
+    //console.log(data);
+    currenWeather.basicDataLog();
+    currenWeather.celsiusDataLog();
+    currenWeather.fahrenheitDataLog();
   });
 }
