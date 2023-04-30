@@ -93,8 +93,7 @@ async function apiRequest(whatLocation) {
         //For later deletion for Fahrenheit because temp will be converted in objects
         forecast_per_day_Celsius: {},
         forecast_per_day_Fahrenheit: {},
-        forecast_per_hour_Celsius: {},
-        forecast_per_hour_Fahrenheit: {},
+        forecast_per_hour: {},
       },
     };
     function forecastPerDayCelsius() {
@@ -116,46 +115,27 @@ async function apiRequest(whatLocation) {
         };
       }
     }
-    function forecastPerHourCelsius() {
+    function forecastPerHour() {
       for (let i = 0; i < 3; i++) {
-        DataObject.forecast.forecast_per_hour_Celsius["day" + i] = {
+        DataObject.forecast.forecast_per_hour["day" + i] = {
           date: response.forecast.forecastday[i].date,
         };
-        DataObject.forecast.forecast_per_hour_Celsius["day" + i].hour = {};
+        DataObject.forecast.forecast_per_hour["day" + i].hour = {};
         for (let k = 0; k < 24; k++) {
-          DataObject.forecast.forecast_per_hour_Celsius["day" + i].hour[
-            "hour" + k
-          ] = {
+          DataObject.forecast.forecast_per_hour["day" + i].hour["hour" + k] = {
             condition: response.forecast.forecastday[i].hour[k].condition.icon,
-            temperature: response.forecast.forecastday[i].hour[k].temp_c,
+            temperatureC: response.forecast.forecastday[i].hour[k].temp_c,
+            temperatureF: response.forecast.forecastday[i].hour[k].temp_f,
             humidity: response.forecast.forecastday[i].hour[k].humidity,
             will_rain: response.forecast.forecastday[i].hour[k].will_it_rain,
           };
         }
       }
     }
-    function forecast_per_hour_Fahrenheit() {
-      for (let i = 0; i < 3; i++) {
-        DataObject.forecast.forecast_per_hour_Fahrenheit["day" + i] = {
-          date: response.forecast.forecastday[i].date,
-        };
-        DataObject.forecast.forecast_per_hour_Fahrenheit["day" + i].hour = {};
-        for (let k = 0; k < 24; k++) {
-          DataObject.forecast.forecast_per_hour_Fahrenheit["day" + i].hour[
-            "hour" + k
-          ] = {
-            condition: response.forecast.forecastday[i].hour[k].condition.icon,
-            temperature: response.forecast.forecastday[i].hour[k].temp_f,
-            humidity: response.forecast.forecastday[i].hour[k].humidity,
-            will_rain: response.forecast.forecastday[i].hour[k].will_it_rain,
-          };
-        }
-      }
-    }
+
     forecastPerDayCelsius();
     forecastPerDayFahrenheit();
-    forecast_per_hour_Fahrenheit();
-    forecastPerHourCelsius();
+    forecastPerHour();
     return DataObject;
   } catch (error) {
     console.log(error);
@@ -167,7 +147,7 @@ apiRequest("London").then((data) => {
   const currentCelsiusData = data.celsius;
   const currentFahrenheitData = data.fahrenheit;
   const dailyForecastData = data.forecast.forecast_per_day_Celsius;
-  const hourlyForecastData = data.forecast.forecast_per_hour_Celsius;
+  const hourlyForecastData = data.forecast.forecast_per_hour;
   const currenWeather = new Weather(
     city,
     condition,
