@@ -9,16 +9,41 @@ html {
 body {
   box-sizing: border-box;
   margin: 0;
-  padding: 1%;
+  padding: 15px;
   min-height: 100%;
   background-color: var(--black);
   color: var(--white);
   display: grid;
   grid-template-rows: 3fr 1fr;
 }
+h2,
+h1,
+p {
+  padding: 0;
+  margin: 0;
+}
+#main,
+#forecast {
+  padding: 5px 10px;
+}
 #main {
   grid-row: 1;
   border: 1px solid white;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+#basic-data {
+  grid-row: 1;
+}
+#form {
+  grid-row: 2;
+}
+#additional-data {
+  grid-row: 3;
+}
+.conditionContainer {
+  display: flex;
+  align-items: center;
 }
 #forecast {
   grid-row: 2;
