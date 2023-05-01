@@ -13,7 +13,8 @@ class Weather {
     sunrise,
     sunset,
     celsiusData,
-    fahrenheitData
+    fahrenheitData,
+    hourlyForecastData
   ) {
     this.country = country;
     this.city = city;
@@ -25,14 +26,7 @@ class Weather {
     this.sunset = sunset;
     this.celsiusData = celsiusData;
     this.fahrenheitData = fahrenheitData;
-  }
-
-  fahrenheitDataDOM() {
-    additionalData(
-      this.humidity,
-      this.celsiusData.feelslike,
-      this.celsiusData.wind
-    );
+    this.hourlyForecastData = hourlyForecastData;
   }
   basicDataDOM() {
     basicData(
@@ -43,6 +37,57 @@ class Weather {
       this.condition,
       this.celsiusData.temperature
     );
+  }
+
+  fahrenheitDataDOM() {
+    additionalData(
+      this.humidity,
+      this.celsiusData.feelslike,
+      this.celsiusData.wind
+    );
+  }
+  //Analyzing chance of rain for the rest of the day local date to midnight
+  chanceOfRain() {
+    let chanceOfRaincounter = 0;
+    let counter = 0;
+    for (
+      let i = 0;
+      i < Object.keys(this.hourlyForecastData.day0.hour).length;
+      i++
+    ) {
+      let timeSlicer = this.hourlyForecastData.day0.hour[`hour${i}`].time;
+      if (
+        new Date(timeSlicer).getTime() > new Date(this.local_time).getTime()
+      ) {
+        counter += 1;
+        chanceOfRaincounter +=
+          this.hourlyForecastData.day0.hour[`hour${i}`].chance_of_rain;
+      }
+    }
+    let chance = chanceOfRaincounter / counter;
+    return Math.round(chance * 100) / 100;
+  }
+  //Analyzing chance of snow for the rest of the day local date to midnight
+  chanceOfSnow() {
+    let chanceOfSnowcounter = 0;
+    let counter = 0;
+    for (
+      let i = 0;
+      i < Object.keys(this.hourlyForecastData.day0.hour).length;
+      i++
+    ) {
+      let timeSlicer = this.hourlyForecastData.day0.hour[`hour${i}`].time;
+      if (
+        new Date(timeSlicer).getTime() > new Date(this.local_time).getTime()
+      ) {
+        counter += 1;
+        chanceOfSnowcounter +=
+          this.hourlyForecastData.day0.hour[`hour${i}`].chance_of_snow;
+      }
+    }
+    let chance = chanceOfSnowcounter / counter;
+    console.log(Math.round(chance * 100) / 100);
+    return Math.round(chance * 100) / 100;
   }
 }
 
@@ -149,6 +194,7 @@ async function apiRequest(whatLocation) {
               response.forecast.forecastday[i].hour[k].chance_of_rain,
             chance_of_snow:
               response.forecast.forecastday[i].hour[k].chance_of_snow,
+            time: response.forecast.forecastday[i].hour[k].time,
           };
         }
       }
@@ -188,13 +234,16 @@ function fireRequest(inputvalue) {
       sunrise,
       sunset,
       currentCelsiusData,
-      currentFahrenheitData
+      currentFahrenheitData,
+      hourlyForecastData
     );
     const dailyForecastObject = new dailyForecast(dailyForecastData);
     const hourlyForecastObject = new hourlyForecast(hourlyForecastData);
     //dailyForecastObject.test();
     //hourlyForecastObject.test();
     //console.log(data);
+    currenWeather.chanceOfRain();
+    currenWeather.chanceOfSnow();
     currenWeather.basicDataDOM();
     currenWeather.fahrenheitDataDOM();
   });
