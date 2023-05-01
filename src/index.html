@@ -9,12 +9,19 @@
   </head>
   <body>
     <main id="main">
-      <form action="">
-        <label for="location">Enter location</label>
-        <input type="text" id="location" name="location" value="" required />
-        <button type="submit" id="searchButton">Search</button>
-      </form>
+      <div id="basic-data"></div>
+      <div class="form">
+        <form action="">
+          <label for="location">Enter location</label>
+          <input type="text" id="location" name="location" value="" required />
+          <button type="submit" id="searchButton">Search</button>
+        </form>
+      </div>
+      <div id="additional-data"></div>
     </main>
-    <div id="forecast"></div>
+    <div id="forecast">
+      <div id="upper-bar"></div>
+      <div id="data-bar"></div>
+    </div>
   </body>
 </html>

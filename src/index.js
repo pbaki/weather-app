@@ -1,5 +1,6 @@
 import "./style.css";
 import { Key } from "./myKey";
+import { basicData, additionalData } from "./mainDOM";
 
 class Weather {
   constructor(
@@ -44,6 +45,16 @@ class Weather {
       this.country + "\n",
       this.humidity + "\n",
       this.local_time + "\n"
+    );
+  }
+  basicDataDOM() {
+    basicData(
+      this.city,
+      this.country,
+      this.local_time,
+      this.condition_icon,
+      this.condition,
+      this.celsiusData.temperature
     );
   }
 }
@@ -91,7 +102,7 @@ async function apiRequest(whatLocation) {
         city: response.location.name,
         local_time: response.location.localtime,
         condition: response.current.condition.text,
-        condition_icon: response.current.condition.icon,
+        condition_icon: "https:" + response.current.condition.icon,
         humidity: response.current.humidity,
       },
       celsius: {
@@ -139,7 +150,9 @@ async function apiRequest(whatLocation) {
         DataObject.forecast.forecast_per_hour["day" + i].hour = {};
         for (let k = 0; k < 24; k++) {
           DataObject.forecast.forecast_per_hour["day" + i].hour["hour" + k] = {
-            condition: response.forecast.forecastday[i].hour[k].condition.icon,
+            condition:
+              "https:" +
+              response.forecast.forecastday[i].hour[k].condition.icon,
             temperatureC: response.forecast.forecastday[i].hour[k].temp_c,
             temperatureF: response.forecast.forecastday[i].hour[k].temp_f,
             humidity: response.forecast.forecastday[i].hour[k].humidity,
@@ -179,7 +192,8 @@ function fireRequest(inputvalue) {
     const hourlyForecastObject = new hourlyForecast(hourlyForecastData);
     //dailyForecastObject.test();
     //hourlyForecastObject.test();
-    //console.log(data);
+    console.log(data);
+    currenWeather.basicDataDOM();
     currenWeather.basicDataLog();
     currenWeather.celsiusDataLog();
     currenWeather.fahrenheitDataLog();
