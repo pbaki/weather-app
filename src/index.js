@@ -4,47 +4,34 @@ import { basicData, additionalData } from "./mainDOM";
 
 class Weather {
   constructor(
+    country,
     city,
+    local_time,
     condition,
     condition_icon,
-    country,
     humidity,
-    local_time,
+    sunrise,
+    sunset,
     celsiusData,
     fahrenheitData
   ) {
+    this.country = country;
     this.city = city;
+    this.local_time = local_time;
     this.condition = condition;
     this.condition_icon = condition_icon;
-    this.country = country;
     this.humidity = humidity;
-    this.local_time = local_time;
+    this.sunrise = sunrise;
+    this.sunset = sunset;
     this.celsiusData = celsiusData;
     this.fahrenheitData = fahrenheitData;
   }
-  celsiusDataLog() {
-    console.log(
-      "Feels Like: " + this.celsiusData.feelslike + " C" + "\n",
-      "Temperature: " + this.celsiusData.temperature + " C" + "\n",
-      "Wind Speed: " + this.celsiusData.wind + " kph" + "\n"
-    );
-  }
-  fahrenheitDataLog() {
-    console.log(
-      "Feels Like: " + this.fahrenheitData.feelslike + " F" + "\n",
-      "Temperature: " + this.fahrenheitData.temperature + " F" + "\n",
-      "Wind Speed: " + this.fahrenheitData.wind + " mph" + "\n"
-    );
-  }
 
-  basicDataLog() {
-    console.log(
-      this.city + "\n",
-      this.condition + "\n",
-      this.condition_icon + "\n",
-      this.country + "\n",
-      this.humidity + "\n",
-      this.local_time + "\n"
+  fahrenheitDataDOM() {
+    additionalData(
+      this.humidity,
+      this.celsiusData.feelslike,
+      this.celsiusData.wind
     );
   }
   basicDataDOM() {
@@ -96,6 +83,7 @@ async function apiRequest(whatLocation) {
       }
     );
     const response = await request.json();
+    console.log(response);
     const DataObject = {
       basic_data: {
         country: response.location.country,
@@ -104,6 +92,8 @@ async function apiRequest(whatLocation) {
         condition: response.current.condition.text,
         condition_icon: "https:" + response.current.condition.icon,
         humidity: response.current.humidity,
+        sunrise: response.forecast.forecastday[0].astro.sunrise,
+        sunset: response.forecast.forecastday[0].astro.sunset,
       },
       celsius: {
         feelslike: response.current.feelslike_c,
@@ -117,7 +107,6 @@ async function apiRequest(whatLocation) {
       },
       forecast: {
         //Looping per days and hours in function forecastPerHourCelsius and forecast_per_hour_Fahrenheit
-        //For later deletion for Fahrenheit because temp will be converted in objects
         forecast_per_day_Celsius: {},
         forecast_per_day_Fahrenheit: {},
         forecast_per_hour: {},
@@ -150,13 +139,16 @@ async function apiRequest(whatLocation) {
         DataObject.forecast.forecast_per_hour["day" + i].hour = {};
         for (let k = 0; k < 24; k++) {
           DataObject.forecast.forecast_per_hour["day" + i].hour["hour" + k] = {
-            condition:
+            condition_icon:
               "https:" +
               response.forecast.forecastday[i].hour[k].condition.icon,
             temperatureC: response.forecast.forecastday[i].hour[k].temp_c,
             temperatureF: response.forecast.forecastday[i].hour[k].temp_f,
             humidity: response.forecast.forecastday[i].hour[k].humidity,
-            will_rain: response.forecast.forecastday[i].hour[k].will_it_rain,
+            chance_of_rain:
+              response.forecast.forecastday[i].hour[k].chance_of_rain,
+            chance_of_snow:
+              response.forecast.forecastday[i].hour[k].chance_of_snow,
           };
         }
       }
@@ -172,19 +164,29 @@ async function apiRequest(whatLocation) {
 }
 function fireRequest(inputvalue) {
   apiRequest(inputvalue).then((data) => {
-    const { city, condition, condition_icon, country, humidity, local_time } =
-      data.basic_data;
+    const {
+      country,
+      city,
+      local_time,
+      condition,
+      condition_icon,
+      humidity,
+      sunrise,
+      sunset,
+    } = data.basic_data;
     const currentCelsiusData = data.celsius;
     const currentFahrenheitData = data.fahrenheit;
     const dailyForecastData = data.forecast.forecast_per_day_Celsius;
     const hourlyForecastData = data.forecast.forecast_per_hour;
     const currenWeather = new Weather(
+      country,
       city,
+      local_time,
       condition,
       condition_icon,
-      country,
       humidity,
-      local_time,
+      sunrise,
+      sunset,
       currentCelsiusData,
       currentFahrenheitData
     );
@@ -192,10 +194,8 @@ function fireRequest(inputvalue) {
     const hourlyForecastObject = new hourlyForecast(hourlyForecastData);
     //dailyForecastObject.test();
     //hourlyForecastObject.test();
-    console.log(data);
+    //console.log(data);
     currenWeather.basicDataDOM();
-    currenWeather.basicDataLog();
-    currenWeather.celsiusDataLog();
-    currenWeather.fahrenheitDataLog();
+    currenWeather.fahrenheitDataDOM();
   });
 }
