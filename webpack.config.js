@@ -6,6 +6,8 @@ module.exports = {
   entry: {
     index: "./src/index.js",
     myKey: "./src/myKey.js",
+    mainDOM: "./src/mainDOM.js",
+    forecastDOM: "./src/forecastDOM.js",
   },
   plugins: [
     new HtmlWebpackPlugin({
