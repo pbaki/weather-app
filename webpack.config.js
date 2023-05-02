@@ -8,6 +8,7 @@ module.exports = {
     myKey: "./src/myKey.js",
     mainDOM: "./src/mainDOM.js",
     forecastDOM: "./src/forecastDOM.js",
+    weatherChance: "./src/weatherChance",
   },
   plugins: [
     new HtmlWebpackPlugin({
