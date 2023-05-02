@@ -1,6 +1,7 @@
 import "./style.css";
 import { Key } from "./myKey";
 import { basicData, additionalData } from "./mainDOM";
+import { chanceOfRain, chanceOfSnow } from "./weatherChance";
 
 class Weather {
   constructor(
@@ -46,48 +47,11 @@ class Weather {
       this.celsiusData.wind
     );
   }
-  //Analyzing chance of rain for the rest of the day local date to midnight
-  chanceOfRain() {
-    let chanceOfRaincounter = 0;
-    let counter = 0;
-    for (
-      let i = 0;
-      i < Object.keys(this.hourlyForecastData.day0.hour).length;
-      i++
-    ) {
-      let timeSlicer = this.hourlyForecastData.day0.hour[`hour${i}`].time;
-      if (
-        new Date(timeSlicer).getTime() > new Date(this.local_time).getTime()
-      ) {
-        counter += 1;
-        chanceOfRaincounter +=
-          this.hourlyForecastData.day0.hour[`hour${i}`].chance_of_rain;
-      }
-    }
-    let chance = chanceOfRaincounter / counter;
-    return Math.round(chance * 100) / 100;
+  rainChance() {
+    chanceOfRain(this.hourlyForecastData, this.local_time);
   }
-  //Analyzing chance of snow for the rest of the day local date to midnight
-  chanceOfSnow() {
-    let chanceOfSnowcounter = 0;
-    let counter = 0;
-    for (
-      let i = 0;
-      i < Object.keys(this.hourlyForecastData.day0.hour).length;
-      i++
-    ) {
-      let timeSlicer = this.hourlyForecastData.day0.hour[`hour${i}`].time;
-      if (
-        new Date(timeSlicer).getTime() > new Date(this.local_time).getTime()
-      ) {
-        counter += 1;
-        chanceOfSnowcounter +=
-          this.hourlyForecastData.day0.hour[`hour${i}`].chance_of_snow;
-      }
-    }
-    let chance = chanceOfSnowcounter / counter;
-    console.log(Math.round(chance * 100) / 100);
-    return Math.round(chance * 100) / 100;
+  snowChance() {
+    chanceOfSnow(this.hourlyForecastData, this.local_time);
   }
 }
 
@@ -242,8 +206,8 @@ function fireRequest(inputvalue) {
     //dailyForecastObject.test();
     //hourlyForecastObject.test();
     //console.log(data);
-    currenWeather.chanceOfRain();
-    currenWeather.chanceOfSnow();
+    currenWeather.rainChance();
+    currenWeather.snowChance();
     currenWeather.basicDataDOM();
     currenWeather.fahrenheitDataDOM();
   });
