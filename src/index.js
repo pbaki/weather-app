@@ -2,6 +2,7 @@ import "./style.css";
 import { Key } from "./myKey";
 import { basicData, additionalData } from "./mainDOM";
 import { chanceOfRain, chanceOfSnow } from "./weatherChance";
+import { dailyButton, hourlyButton, daily, hourly } from "./forecastDOM";
 
 class Weather {
   constructor(
@@ -61,16 +62,37 @@ class dailyForecast {
   constructor(dailyForecast) {
     this.dailyForecast = dailyForecast;
   }
-  test() {
-    console.log(this.dailyForecast);
+  generateDailyData() {
+    const dataContainerRemover = document.getElementById("data-bar");
+    while (dataContainerRemover.firstChild) {
+      dataContainerRemover.removeChild(dataContainerRemover.firstChild);
+    }
+    for (let i = 0; i < Object.keys(this.dailyForecast).length; i++) {
+      let dateNow = this.dailyForecast["day" + i].date;
+      let conditionIconNow = this.dailyForecast["day" + i].condition_icon;
+      let temperatureNow = this.dailyForecast["day" + i].avg_tempC;
+      daily(dateNow, conditionIconNow, temperatureNow);
+    }
+  }
+  generateDailyDataButton() {
+    const button = document.getElementsByClassName("dailyButton")[0];
+    button.addEventListener("click", () => {
+      this.generateDailyData();
+    });
   }
 }
 class hourlyForecast {
   constructor(hourlyForecast) {
     this.hourlyForecast = hourlyForecast;
   }
-  test() {
-    console.log(this.hourlyForecast);
+  generateHourlyDataButton() {
+    const dataContainerRemover = document.getElementById("data-bar");
+    const button = document.getElementsByClassName("hourlyButton")[0];
+    button.addEventListener("click", () => {
+      while (dataContainerRemover.firstChild) {
+        dataContainerRemover.removeChild(dataContainerRemover.firstChild);
+      }
+    });
   }
 }
 
@@ -118,30 +140,22 @@ async function apiRequest(whatLocation) {
       },
       forecast: {
         //Looping per days and hours in function forecastPerHourCelsius and forecast_per_hour_Fahrenheit
-        forecast_per_day_Celsius: {},
-        forecast_per_day_Fahrenheit: {},
+        forecast_per_day: {},
         forecast_per_hour: {},
       },
     };
-    function forecastPerDayCelsius() {
+    function forecastPerDay() {
       for (let i = 0; i < 3; i++) {
-        DataObject.forecast.forecast_per_day_Celsius["day" + i] = {
+        DataObject.forecast.forecast_per_day["day" + i] = {
           date: response.forecast.forecastday[i].date,
-          min_temp: response.forecast.forecastday[i].day.mintemp_c,
-          max_temp: response.forecast.forecastday[i].day.maxtemp_c,
+          condition_icon:
+            "https:" + response.forecast.forecastday[i].day.condition.icon,
+          avg_tempC: response.forecast.forecastday[i].day.avgtemp_c,
+          avg_tempF: response.forecast.forecastday[i].day.avgtemp_f,
         };
       }
     }
 
-    function forecastPerDayFahrenheit() {
-      for (let i = 0; i < 3; i++) {
-        DataObject.forecast.forecast_per_day_Fahrenheit["day" + i] = {
-          date: response.forecast.forecastday[i].date,
-          min_temp: response.forecast.forecastday[i].day.mintemp_f,
-          max_temp: response.forecast.forecastday[i].day.maxtemp_f,
-        };
-      }
-    }
     function forecastPerHour() {
       for (let i = 0; i < 3; i++) {
         DataObject.forecast.forecast_per_hour["day" + i] = {
@@ -166,8 +180,7 @@ async function apiRequest(whatLocation) {
       }
     }
 
-    forecastPerDayCelsius();
-    forecastPerDayFahrenheit();
+    forecastPerDay();
     forecastPerHour();
     return DataObject;
   } catch (error) {
@@ -188,7 +201,7 @@ function fireRequest(inputvalue) {
     } = data.basic_data;
     const currentCelsiusData = data.celsius;
     const currentFahrenheitData = data.fahrenheit;
-    const dailyForecastData = data.forecast.forecast_per_day_Celsius;
+    const dailyForecastData = data.forecast.forecast_per_day;
     const hourlyForecastData = data.forecast.forecast_per_hour;
     const currenWeather = new Weather(
       country,
@@ -205,9 +218,10 @@ function fireRequest(inputvalue) {
     );
     const dailyForecastObject = new dailyForecast(dailyForecastData);
     const hourlyForecastObject = new hourlyForecast(hourlyForecastData);
-    //dailyForecastObject.test();
-    //hourlyForecastObject.test();
-    console.log(data);
+    dailyForecastObject.generateDailyData();
+    dailyForecastObject.generateDailyDataButton();
+    hourlyForecastObject.generateHourlyDataButton();
+    //console.log(data);
     currenWeather.basicDataDOM();
     currenWeather.additionalDataDOM();
   });
