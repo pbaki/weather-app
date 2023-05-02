@@ -14,7 +14,7 @@ body {
   background-color: var(--black);
   color: var(--white);
   display: grid;
-  grid-template-rows: 3fr 1fr;
+  grid-template-rows: 3fr 2fr;
 }
 h2,
 h1,
@@ -41,4 +41,17 @@ p {
 #forecast {
   grid-row: 2;
   border: 1px solid white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+#upper-bar {
+  display: flex;
+  margin: 10px;
+  gap: 30px;
+}
+#data-bar {
+  display: flex;
+  gap: 30px;
+  align-items: center;
 }
