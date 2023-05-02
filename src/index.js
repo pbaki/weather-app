@@ -40,11 +40,13 @@ class Weather {
     );
   }
 
-  fahrenheitDataDOM() {
+  additionalDataDOM() {
     additionalData(
       this.humidity,
       this.celsiusData.feelslike,
-      this.celsiusData.wind
+      this.celsiusData.wind,
+      this.sunrise,
+      this.sunset
     );
   }
   rainChance() {
@@ -205,10 +207,8 @@ function fireRequest(inputvalue) {
     const hourlyForecastObject = new hourlyForecast(hourlyForecastData);
     //dailyForecastObject.test();
     //hourlyForecastObject.test();
-    //console.log(data);
-    currenWeather.rainChance();
-    currenWeather.snowChance();
+    console.log(data);
     currenWeather.basicDataDOM();
-    currenWeather.fahrenheitDataDOM();
+    currenWeather.additionalDataDOM();
   });
 }

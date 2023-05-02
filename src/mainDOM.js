@@ -39,12 +39,12 @@ function basicData(city, country, time, conditionIcon, condition, temperature) {
   }
 }
 
-function additionalData(humidity, feelslike, windspeed) {
+function additionalData(humidity, feelslike, windspeed, sunrise, sunset) {
   const additionalDataHolder = document.getElementById("additional-data");
 
   let humidityData = document.createElement("p");
   humidityData.classList.add("humidityData");
-  humidityData.innerHTML = "humidity " + humidity + " %";
+  humidityData.innerHTML = "Humidity " + humidity + " %";
 
   let feelslikeData = document.createElement("p");
   feelslikeData.classList.add("feelslikeData");
@@ -54,10 +54,30 @@ function additionalData(humidity, feelslike, windspeed) {
   windspeedData.classList.add("windspeedData");
   windspeedData.innerHTML = "Wind Speed " + windspeed + " kph";
 
+  if (sunrise[0] == 0) {
+    sunrise = sunrise.split("");
+    sunrise.shift();
+    sunrise = sunrise.join("");
+  }
+  let sunriseData = document.createElement("p");
+  sunriseData.classList.add("sunriseData");
+  sunriseData.innerHTML = "Sunrise " + sunrise;
+
+  if (sunset[0] == 0) {
+    sunset = sunset.split("");
+    sunset.shift();
+    sunset = sunset.join("");
+  }
+  let sunsetData = document.createElement("p");
+  sunsetData.classList.add("sunsetData");
+  sunsetData.innerHTML = "Sunset " + sunset;
+
   if (additionalDataHolder.childNodes.length == 0) {
     additionalDataHolder.appendChild(humidityData);
     additionalDataHolder.appendChild(feelslikeData);
     additionalDataHolder.appendChild(windspeedData);
+    additionalDataHolder.appendChild(sunriseData);
+    additionalDataHolder.appendChild(sunsetData);
   } else {
     additionalDataHolder.replaceChild(
       humidityData,
@@ -70,6 +90,14 @@ function additionalData(humidity, feelslike, windspeed) {
     additionalDataHolder.replaceChild(
       windspeedData,
       additionalDataHolder.children[2]
+    );
+    additionalDataHolder.replaceChild(
+      sunriseData,
+      additionalDataHolder.children[3]
+    );
+    additionalDataHolder.replaceChild(
+      sunsetData,
+      additionalDataHolder.children[4]
     );
   }
 }
