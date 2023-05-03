@@ -71,7 +71,8 @@ class dailyForecast {
       let dateNow = this.dailyForecast["day" + i].date;
       let conditionIconNow = this.dailyForecast["day" + i].condition_icon;
       let temperatureNow = this.dailyForecast["day" + i].avg_tempC;
-      daily(dateNow, conditionIconNow, temperatureNow);
+      let conditionText = this.dailyForecast["day" + i].condition;
+      daily(dateNow, conditionIconNow, temperatureNow, conditionText);
     }
   }
   generateDailyDataButton() {
@@ -85,13 +86,28 @@ class hourlyForecast {
   constructor(hourlyForecast) {
     this.hourlyForecast = hourlyForecast;
   }
-  generateHourlyDataButton() {
+  generateHourlyData() {
     const dataContainerRemover = document.getElementById("data-bar");
+    while (dataContainerRemover.firstChild) {
+      dataContainerRemover.removeChild(dataContainerRemover.firstChild);
+    }
+    for (let i = 0; i < Object.keys(this.hourlyForecast).length; i++) {
+      for (let k = 0; k < 24; k++) {
+        let dateNow = this.hourlyForecast["day" + i].hour["hour" + k].time;
+        let conditionIconNow =
+          this.hourlyForecast["day" + i].hour["hour" + k].condition_icon;
+        let temperatureNow =
+          this.hourlyForecast["day" + i].hour["hour" + k].temperatureC;
+        let conditionText =
+          this.hourlyForecast["day" + i].hour["hour" + k].condition;
+        daily(dateNow, conditionIconNow, temperatureNow, conditionText);
+      }
+    }
+  }
+  generateHourlyDataButton() {
     const button = document.getElementsByClassName("hourlyButton")[0];
     button.addEventListener("click", () => {
-      while (dataContainerRemover.firstChild) {
-        dataContainerRemover.removeChild(dataContainerRemover.firstChild);
-      }
+      this.generateHourlyData();
     });
   }
 }
@@ -150,6 +166,7 @@ async function apiRequest(whatLocation) {
           date: response.forecast.forecastday[i].date,
           condition_icon:
             "https:" + response.forecast.forecastday[i].day.condition.icon,
+          condition: response.forecast.forecastday[i].day.condition.text,
           avg_tempC: response.forecast.forecastday[i].day.avgtemp_c,
           avg_tempF: response.forecast.forecastday[i].day.avgtemp_f,
         };
@@ -167,6 +184,7 @@ async function apiRequest(whatLocation) {
             condition_icon:
               "https:" +
               response.forecast.forecastday[i].hour[k].condition.icon,
+            condition: response.forecast.forecastday[i].hour[k].condition.text,
             temperatureC: response.forecast.forecastday[i].hour[k].temp_c,
             temperatureF: response.forecast.forecastday[i].hour[k].temp_f,
             humidity: response.forecast.forecastday[i].hour[k].humidity,
@@ -221,7 +239,7 @@ function fireRequest(inputvalue) {
     dailyForecastObject.generateDailyData();
     dailyForecastObject.generateDailyDataButton();
     hourlyForecastObject.generateHourlyDataButton();
-    //console.log(data);
+    console.log(data);
     currenWeather.basicDataDOM();
     currenWeather.additionalDataDOM();
   });
