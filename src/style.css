@@ -50,7 +50,13 @@ p {
   margin: 10px;
   gap: 30px;
 }
+.arrowContainer {
+  display: flex;
+  gap: 30px;
+}
 #data-bar {
+  overflow-x: auto;
+  max-width: 1000px;
   display: flex;
   gap: 30px;
   align-items: center;

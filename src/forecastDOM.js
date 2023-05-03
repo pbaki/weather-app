@@ -9,12 +9,28 @@ function buttons() {
   hourlyButton.classList.add("hourlyButton");
   hourlyButton.innerHTML = "Hourly";
 
+  let arrowContainer = document.createElement("div");
+  arrowContainer.classList.add("arrowContainer");
+
+  let leftArrow = document.createElement("p");
+  leftArrow.classList.add("leftArrow");
+  leftArrow.innerHTML = "<";
+
+  let rightArrow = document.createElement("p");
+  rightArrow.classList.add("rightArrow");
+  rightArrow.innerHTML = ">";
+
+  arrowContainer.appendChild(leftArrow);
+  arrowContainer.appendChild(rightArrow);
+
   if (buttonContainer.childNodes.length == 0) {
     buttonContainer.appendChild(dailyButton);
     buttonContainer.appendChild(hourlyButton);
+    buttonContainer.appendChild(arrowContainer);
   } else {
     buttonContainer.replaceChild(dailyButton, buttonContainer.children[0]);
     buttonContainer.replaceChild(hourlyButton, buttonContainer.children[1]);
+    buttonContainer.replaceChild(arrowContainer, buttonContainer.children[2]);
   }
 }
 buttons();
@@ -79,8 +95,16 @@ function hourly(date, condition_icon, temp, conditionText) {
   hourlyDataContainer.appendChild(Container);
 }
 
-function dailyButton() {}
+function dataBarScroll() {
+  const scrollContainer = document.getElementById("data-bar");
 
-function hourlyButton() {}
+  scrollContainer.addEventListener("wheel", (event) => {
+    event.preventDefault();
+    scrollContainer.scrollBy({
+      left: event.deltaY < 0 ? -30 : 30,
+    });
+  });
+}
+dataBarScroll();
 
-export { dailyButton, hourlyButton, daily, hourly };
+export { daily, hourly };
