@@ -1,7 +1,7 @@
 import "./style.css";
 import { Key } from "./myKey";
 import { basicData, additionalData } from "./mainDOM";
-import { dailyButton, hourlyButton, daily, hourly } from "./forecastDOM";
+import { dailyButton, hourlyButton, daily } from "./forecastDOM";
 
 class Weather {
   constructor(
