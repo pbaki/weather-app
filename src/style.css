@@ -1,3 +1,6 @@
+* {
+  box-sizing: border-box;
+}
 html {
   width: 100%;
   height: 100%;
@@ -5,9 +8,9 @@ html {
   --black: #000;
   --white: #fff;
   --orange: #ff9000;
+  --darkOrange: #b86800;
 }
 body {
-  box-sizing: border-box;
   margin: 0;
   padding: 15px;
   min-height: 100%;
@@ -48,6 +51,7 @@ p {
 #upper-bar {
   display: flex;
   margin: 10px;
+  padding: 10px;
   gap: 30px;
 }
 .arrowContainer {
@@ -55,9 +59,46 @@ p {
   gap: 30px;
 }
 #data-bar {
-  overflow-x: auto;
-  max-width: 1000px;
+  overflow-x: hidden;
+  max-width: 90vw;
   display: flex;
   gap: 30px;
   align-items: center;
+}
+.leftArrow,
+.rightArrow {
+  border: 10px solid black;
+  border-width: 13px 0 13px 21px;
+  border-color: transparent transparent transparent var(--orange);
+  border-radius: 5px;
+}
+.leftArrow {
+  transform: rotate(180deg);
+}
+.leftArrow:hover,
+.rightArrow:hover {
+  border-color: transparent transparent transparent var(--darkOrange);
+}
+
+.dailyButton,
+.hourlyButton,
+#searchButton {
+  background-color: var(--orange);
+  border-radius: 8px;
+  border-style: none;
+  color: var(--black);
+  cursor: pointer;
+  font-size: 1rem;
+  height: 30px;
+  padding: 6px 12px;
+  transition: color 100ms;
+}
+
+.dailyButton:hover,
+.hourlyButton:hover,
+#searchButton:hover,
+.dailyButton:active,
+.hourlyButton:active,
+#searchButton:active {
+  background-color: var(--darkOrange);
 }
