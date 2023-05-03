@@ -4,6 +4,7 @@
 html {
   width: 100%;
   height: 100%;
+  overflow-x: hidden;
   font-family: "Times New Roman", Times, serif;
   --black: #000;
   --lightBlack: #616161;
@@ -45,23 +46,42 @@ p {
 form {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 9px;
 }
 label {
   font-size: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
 }
 input {
   height: 30px;
-  font-size: 1.3rem;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 18px;
+  outline: none;
+  margin-bottom: 5px;
+}
+
+/* Style for focused input elements */
+input:focus {
+  border-color: var(--orange);
 }
 #searchButton {
   align-self: flex-end;
   margin: 5px 5px;
 }
 #main {
+  margin-top: 10px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 30px;
+}
+.currentTemperature {
+  font-size: 3rem;
 }
 
 #basic-data,
@@ -92,24 +112,43 @@ input {
   display: flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  line-height: 21px;
 }
-
 #upper-bar {
   display: flex;
   margin: 10px;
   padding: 10px;
-  gap: 30px;
+  gap: 35px;
 }
 .arrowContainer {
   display: flex;
   gap: 30px;
+  margin-left: 10px;
 }
 #data-bar {
+  margin-top: 15px;
   overflow-x: hidden;
-  max-width: 90vw;
+  max-width: 85vw;
   display: flex;
   gap: 30px;
   align-items: center;
+}
+.dailyContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+.dailyConditionText {
+  font-size: 1rem;
+  opacity: 0.6;
+}
+.dailyContainer p {
+  white-space: nowrap;
+}
+.dailyTemperatureHolder {
+  white-space: nowrap;
 }
 .leftArrow,
 .rightArrow {
@@ -147,4 +186,62 @@ input {
 .hourlyButton:active,
 #searchButton:active {
   background-color: var(--darkOrange);
+}
+
+@media (min-width: 860px) {
+  form {
+    flex-direction: row;
+  }
+}
+
+@media (min-height: 880px) {
+  #main {
+    gap: 34px;
+  }
+  #additional-data {
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 10px;
+    max-width: 870px;
+  }
+  #additional-data p {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 0px;
+  }
+}
+@media (min-height: 990px) {
+  .dailyButton,
+  .hourlyButton {
+    width: 90px;
+    height: 35px;
+    font-size: 1.2rem;
+  }
+  .cityCountryNameName {
+    font-size: 40px;
+  }
+  .timeDate {
+    font-size: 21px;
+  }
+  .whetherCondition {
+    font-size: 32px;
+  }
+  .currentTemperature {
+    font-size: 4rem;
+  }
+  #additional-data p {
+    padding: 16px 0px;
+  }
+  .dailyTemperatureHolder {
+    font-size: 40px;
+  }
+  .dailyDateHolder {
+    font-size: 21px;
+  }
+  .dailyConditionText {
+    font-size: 21px;
+  }
 }

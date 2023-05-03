@@ -38,7 +38,14 @@ function daily(date, condition_icon, temp, conditionText) {
 
   let dailyDateHolder = document.createElement("p");
   dailyDateHolder.classList.add("dailyDateHolder");
-  dailyDateHolder.innerHTML = date;
+  let cutYear = date.split("-").slice(1, 3);
+  let result = cutYear.join("/");
+  if (result.split("")[6] == 0) {
+    result = result.split("");
+    let temp = result.splice(6, 1);
+    result = result.join("");
+  }
+  if (result) dailyDateHolder.innerHTML = result;
 
   let dailyConditionIcon = document.createElement("img");
   dailyConditionIcon.classList.add("dailyConditionIcon");
@@ -63,12 +70,15 @@ function daily(date, condition_icon, temp, conditionText) {
   dailyDataContainer.appendChild(Container);
 }
 
+//Not used yet
 function hourly(date, condition_icon, temp, conditionText) {
   let hourlyDataContainer = document.getElementById("data-bar");
 
   let hourlyDateHolder = document.createElement("p");
   hourlyDateHolder.classList.add("hourlyDateHolder");
-  hourlyDateHolder.innerHTML = date;
+  let cutYear = date.split("-").slice(1, 3);
+  let result = cutYear.join("/");
+  hourlyDateHolder.innerHTML = result;
 
   let hourlyConditionIcon = document.createElement("img");
   hourlyConditionIcon.classList.add("hourlyConditionIcon");
