@@ -54,25 +54,28 @@ function additionalData(
 
   let humidityData = document.createElement("p");
   humidityData.classList.add("humidityData");
-  humidityData.innerHTML = "Humidity " + humidity + " %";
+  humidityData.innerHTML = "Humidity" + "<br>" + humidity + " %";
 
   let feelslikeData = document.createElement("p");
   feelslikeData.classList.add("feelslikeData");
-  feelslikeData.innerHTML = "Feels Like " + feelslike + " °C";
+  feelslikeData.innerHTML = "Feels Like" + "<br>" + feelslike + " °C";
 
   let windspeedData = document.createElement("p");
   windspeedData.classList.add("windspeedData");
-  windspeedData.innerHTML = "Wind Speed " + windspeed + " kph";
+  windspeedData.innerHTML = "Wind Speed" + "<br>" + windspeed + " kph";
 
   let chanceRainData = document.createElement("p");
   chanceRainData.classList.add("chanceRainData");
   chanceRainData.innerHTML =
-    "Chance Of Rain " + chanceOfRain(hourlyForecastData, local_time) + " %";
+    "Chance Of Rain" +
+    "<br>" +
+    chanceOfRain(hourlyForecastData, local_time) +
+    " %";
 
   // let chanceSnowData = document.createElement("p");
   // chanceSnowData.classList.add("chanceSnowData");
   // chanceSnowData.innerHTML =
-  //   "Chance Of Snow " + chanceOfSnow(hourlyForecastData, local_time) + " %";
+  //   "Chance Of Snow" + "<br>" + chanceOfSnow(hourlyForecastData, local_time) + " %";
 
   if (sunrise[0] == 0) {
     sunrise = sunrise.split("");
@@ -81,7 +84,7 @@ function additionalData(
   }
   let sunriseData = document.createElement("p");
   sunriseData.classList.add("sunriseData");
-  sunriseData.innerHTML = "Sunrise " + sunrise;
+  sunriseData.innerHTML = "Sunrise" + "<br>" + sunrise;
 
   if (sunset[0] == 0) {
     sunset = sunset.split("");
@@ -90,7 +93,7 @@ function additionalData(
   }
   let sunsetData = document.createElement("p");
   sunsetData.classList.add("sunsetData");
-  sunsetData.innerHTML = "Sunset " + sunset;
+  sunsetData.innerHTML = "Sunset" + "<br>" + sunset;
 
   if (additionalDataHolder.childNodes.length == 0) {
     additionalDataHolder.appendChild(humidityData);

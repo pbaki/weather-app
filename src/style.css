@@ -6,6 +6,7 @@ html {
   height: 100%;
   font-family: "Times New Roman", Times, serif;
   --black: #000;
+  --lightBlack: #616161;
   --white: #fff;
   --orange: #ff9000;
   --darkOrange: #b86800;
@@ -16,8 +17,9 @@ body {
   min-height: 100%;
   background-color: var(--black);
   color: var(--white);
-  display: grid;
-  grid-template-rows: 3fr 2fr;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 h2,
 h1,
@@ -29,25 +31,69 @@ p {
 #forecast {
   padding: 5px 10px;
 }
-#main {
-  grid-row: 1;
-  border: 1px solid white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
 
 .conditionContainer {
   display: flex;
   align-items: center;
 }
 #forecast {
-  grid-row: 2;
-  border: 1px solid white;
   display: flex;
   flex-direction: column;
   align-items: center;
 }
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+label {
+  font-size: 1.5rem;
+}
+input {
+  height: 30px;
+  font-size: 1.3rem;
+}
+#searchButton {
+  align-self: flex-end;
+  margin: 5px 5px;
+}
+#main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#basic-data,
+#additional-data {
+  width: 80vw;
+}
+.cityCountryNameName {
+  font-size: xx-large;
+  padding: 10px;
+}
+#basic-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#additional-data {
+  margin: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 10px;
+}
+#additional-data p {
+  padding: 8px 10px;
+  border: 1px solid var(--lightBlack);
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 #upper-bar {
   display: flex;
   margin: 10px;

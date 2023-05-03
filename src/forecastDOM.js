@@ -14,11 +14,9 @@ function buttons() {
 
   let leftArrow = document.createElement("p");
   leftArrow.classList.add("leftArrow");
-  leftArrow.innerHTML = "<";
 
   let rightArrow = document.createElement("p");
   rightArrow.classList.add("rightArrow");
-  rightArrow.innerHTML = ">";
 
   arrowContainer.appendChild(leftArrow);
   arrowContainer.appendChild(rightArrow);
@@ -51,7 +49,7 @@ function daily(date, condition_icon, temp, conditionText) {
   dailyConditionText.classList.add("dailyConditionText");
   dailyConditionText.innerHTML = conditionText;
 
-  let dailyTemperatureHolder = document.createElement("h1");
+  let dailyTemperatureHolder = document.createElement("h2");
   dailyTemperatureHolder.classList.add("dailyTemperatureHolder");
   dailyTemperatureHolder.innerHTML = temp + " °C";
 
@@ -81,7 +79,7 @@ function hourly(date, condition_icon, temp, conditionText) {
   hourlyConditionText.classList.add("hourlyConditionText");
   hourlyConditionText.innerHTML = conditionText;
 
-  let hourlyTemperatureHolder = document.createElement("h1");
+  let hourlyTemperatureHolder = document.createElement("h2");
   hourlyTemperatureHolder.classList.add("hourlyTemperatureHolder");
   hourlyTemperatureHolder.innerHTML = temp + " °C";
 
