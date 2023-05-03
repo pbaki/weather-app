@@ -1,3 +1,5 @@
+import { chanceOfRain, chanceOfSnow } from "./weatherChance";
+
 function basicData(city, country, time, conditionIcon, condition, temperature) {
   const dataHolder = document.getElementById("basic-data");
 
@@ -39,7 +41,15 @@ function basicData(city, country, time, conditionIcon, condition, temperature) {
   }
 }
 
-function additionalData(humidity, feelslike, windspeed, sunrise, sunset) {
+function additionalData(
+  humidity,
+  feelslike,
+  windspeed,
+  sunrise,
+  sunset,
+  local_time,
+  hourlyForecastData
+) {
   const additionalDataHolder = document.getElementById("additional-data");
 
   let humidityData = document.createElement("p");
@@ -53,6 +63,16 @@ function additionalData(humidity, feelslike, windspeed, sunrise, sunset) {
   let windspeedData = document.createElement("p");
   windspeedData.classList.add("windspeedData");
   windspeedData.innerHTML = "Wind Speed " + windspeed + " kph";
+
+  let chanceRainData = document.createElement("p");
+  chanceRainData.classList.add("chanceRainData");
+  chanceRainData.innerHTML =
+    "Chance Of Rain " + chanceOfRain(hourlyForecastData, local_time) + " %";
+
+  // let chanceSnowData = document.createElement("p");
+  // chanceSnowData.classList.add("chanceSnowData");
+  // chanceSnowData.innerHTML =
+  //   "Chance Of Snow " + chanceOfSnow(hourlyForecastData, local_time) + " %";
 
   if (sunrise[0] == 0) {
     sunrise = sunrise.split("");
@@ -78,6 +98,8 @@ function additionalData(humidity, feelslike, windspeed, sunrise, sunset) {
     additionalDataHolder.appendChild(windspeedData);
     additionalDataHolder.appendChild(sunriseData);
     additionalDataHolder.appendChild(sunsetData);
+    additionalDataHolder.appendChild(chanceRainData);
+    // additionalDataHolder.appendChild(chanceSnowData);
   } else {
     additionalDataHolder.replaceChild(
       humidityData,
@@ -99,6 +121,14 @@ function additionalData(humidity, feelslike, windspeed, sunrise, sunset) {
       sunsetData,
       additionalDataHolder.children[4]
     );
+    additionalDataHolder.replaceChild(
+      chanceRainData,
+      additionalDataHolder.children[5]
+    );
+    // additionalDataHolder.replaceChild(
+    //   chanceSnowData,
+    //   additionalDataHolder.children[6]
+    // );
   }
 }
 

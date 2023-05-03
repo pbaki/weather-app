@@ -1,7 +1,6 @@
 import "./style.css";
 import { Key } from "./myKey";
 import { basicData, additionalData } from "./mainDOM";
-import { chanceOfRain, chanceOfSnow } from "./weatherChance";
 import { dailyButton, hourlyButton, daily, hourly } from "./forecastDOM";
 
 class Weather {
@@ -47,14 +46,10 @@ class Weather {
       this.celsiusData.feelslike,
       this.celsiusData.wind,
       this.sunrise,
-      this.sunset
+      this.sunset,
+      this.local_time,
+      this.hourlyForecastData
     );
-  }
-  rainChance() {
-    chanceOfRain(this.hourlyForecastData, this.local_time);
-  }
-  snowChance() {
-    chanceOfSnow(this.hourlyForecastData, this.local_time);
   }
 }
 
