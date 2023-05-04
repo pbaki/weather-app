@@ -81,7 +81,7 @@ input:focus {
   gap: 30px;
 }
 .currentTemperature {
-  font-size: 3rem;
+  font-size: 2.7rem;
 }
 
 #basic-data,
@@ -135,20 +135,24 @@ input:focus {
   gap: 30px;
   align-items: center;
 }
-.dailyContainer {
+.dailyContainer,
+.hourlyContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 7px;
 }
-.dailyConditionText {
+.dailyConditionText,
+.hourlyConditionText {
   font-size: 1rem;
   opacity: 0.6;
 }
-.dailyContainer p {
+.dailyContainer p,
+.hourlyContainer p {
   white-space: nowrap;
 }
-.dailyTemperatureHolder {
+.dailyTemperatureHolder,
+.hourlyTemperatureHolder {
   white-space: nowrap;
 }
 .leftArrow,
@@ -166,9 +170,17 @@ input:focus {
   border-color: transparent transparent transparent var(--darkOrange);
 }
 
+.convertButtonContainer {
+  display: flex;
+  gap: 15px;
+  margin-top: 15px;
+}
+
 .dailyButton,
 .hourlyButton,
-#searchButton {
+#searchButton,
+.convertToFahrenheit,
+.convertToCelsius {
   background-color: var(--orange);
   border-radius: 8px;
   border-style: none;
@@ -185,7 +197,11 @@ input:focus {
 #searchButton:hover,
 .dailyButton:active,
 .hourlyButton:active,
-#searchButton:active {
+#searchButton:active,
+.convertToFahrenheit:active,
+.convertToCelsius:active,
+.convertToFahrenheit:hover,
+.convertToCelsius:hover {
   background-color: var(--darkOrange);
 }
 
@@ -213,6 +229,10 @@ input:focus {
     justify-content: center;
     padding: 10px 0px;
   }
+  .convertButtonContainer {
+    margin-top: 25px;
+    margin-bottom: -10px;
+  }
 }
 @media (min-height: 990px) {
   .dailyButton,
@@ -234,10 +254,10 @@ input:focus {
     font-size: 4rem;
   }
   #additional-data p {
-    padding: 16px 0px;
+    padding: 10px 0px;
   }
   .dailyTemperatureHolder {
-    font-size: 40px;
+    font-size: 38px;
   }
   .dailyDateHolder {
     font-size: 21px;
@@ -253,7 +273,8 @@ input:focus {
   }
 }
 @media (max-height: 690px) {
-  .dailyContainer {
+  .dailyContainer,
+  .hourlyContainer {
     gap: 3px;
   }
   #data-bar {
