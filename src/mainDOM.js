@@ -158,7 +158,7 @@ function convertToFahrenheit() {
   button.innerHTML = "Convert to °F";
   if (
     container.contains(
-      document.getElementsByClassName("convertToFahrenheit")[0]
+      document.getElementsByClassName("convertButtonContainer")[0]
     )
   ) {
     return;
@@ -172,7 +172,9 @@ function convertToCelsius() {
   button.classList.add("convertToCelsius");
   button.innerHTML = "Convert to °C";
   if (
-    container.contains(document.getElementsByClassName("convertToCelsius")[0])
+    container.contains(
+      document.getElementsByClassName("convertButtonContainer")[0]
+    )
   ) {
     return;
   }

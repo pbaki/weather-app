@@ -70,20 +70,30 @@ class Weather {
   dataConverter() {
     let button = convertToFahrenheit();
     let button2 = convertToCelsius();
-    button.addEventListener("click", () => {
-      mainConverterF(
-        this.fahrenheitData.temperature,
-        this.fahrenheitData.feelslike,
-        this.fahrenheitData.wind
-      );
-    });
-    button2.addEventListener("click", () => {
-      mainConverterC(
-        this.celsiusData.temperature,
-        this.celsiusData.feelslike,
-        this.celsiusData.wind
-      );
-    });
+    if (button != undefined || button2 != undefined) {
+      const container = document.getElementById("basic-data");
+      const buttonContainer = document.createElement("div");
+      buttonContainer.classList.add("convertButtonContainer");
+
+      buttonContainer.appendChild(button);
+      buttonContainer.appendChild(button2);
+      container.appendChild(buttonContainer);
+
+      button.addEventListener("click", () => {
+        mainConverterF(
+          this.fahrenheitData.temperature,
+          this.fahrenheitData.feelslike,
+          this.fahrenheitData.wind
+        );
+      });
+      button2.addEventListener("click", () => {
+        mainConverterC(
+          this.celsiusData.temperature,
+          this.celsiusData.feelslike,
+          this.celsiusData.wind
+        );
+      });
+    }
   }
 }
 
