@@ -1,6 +1,15 @@
 import "./style.css";
 import { Key } from "./myKey";
-import { basicData, additionalData, errorMsg, errorClean } from "./mainDOM";
+import {
+  basicData,
+  additionalData,
+  errorMsg,
+  errorClean,
+  convertToCelsius,
+  convertToFahrenheit,
+  mainConverterF,
+  mainConverterC,
+} from "./mainDOM";
 import { daily } from "./forecastDOM";
 
 class Weather {
@@ -50,6 +59,24 @@ class Weather {
       this.local_time,
       this.hourlyForecastData
     );
+  }
+  dataConverter() {
+    let button = convertToFahrenheit();
+    let button2 = convertToCelsius();
+    button.addEventListener("click", () => {
+      mainConverterF(
+        this.fahrenheitData.temperature,
+        this.fahrenheitData.feelslike,
+        this.fahrenheitData.wind
+      );
+    });
+    button2.addEventListener("click", () => {
+      mainConverterC(
+        this.celsiusData.temperature,
+        this.celsiusData.feelslike,
+        this.celsiusData.wind
+      );
+    });
   }
 }
 
@@ -118,6 +145,7 @@ function takeLocation() {
 }
 takeLocation();
 
+//take ip and display weather
 async function ipRequest() {
   try {
     const request = await fetch(
@@ -127,11 +155,8 @@ async function ipRequest() {
       }
     );
     const response = await request.json();
-    console.log(response);
     const data = {
       ip: response.ip,
-      city: response.city,
-      country: response.country_name,
     };
     return data;
   } catch (error) {
@@ -161,8 +186,6 @@ async function apiRequest(whatLocation) {
       }
     }
     let betterLookup = await passData();
-    console.log(whatLocation);
-    console.log(betterLookup);
 
     const request = await fetch(
       `https://api.weatherapi.com/v1/forecast.json?key=${Key}&q=${betterLookup}&days=3`,
@@ -277,11 +300,12 @@ function fireRequest(inputvalue) {
       );
       const dailyForecastObject = new dailyForecast(dailyForecastData);
       const hourlyForecastObject = new hourlyForecast(hourlyForecastData);
+      currenWeather.basicDataDOM();
+      currenWeather.additionalDataDOM();
+      currenWeather.dataConverter();
       dailyForecastObject.generateDailyData();
       dailyForecastObject.generateDailyDataButton();
       hourlyForecastObject.generateHourlyDataButton();
-      currenWeather.basicDataDOM();
-      currenWeather.additionalDataDOM();
     })
     .catch((error) => {
       console.log(error);

@@ -151,5 +151,61 @@ function errorClean() {
     form.lastChild.remove();
   }
 }
+function convertToFahrenheit() {
+  const container = document.getElementById("basic-data");
+  const button = document.createElement("button");
+  button.classList.add("convertToFahrenheit");
+  button.innerHTML = "Convert to °F";
+  if (
+    container.contains(
+      document.getElementsByClassName("convertToFahrenheit")[0]
+    )
+  ) {
+    return;
+  }
+  container.appendChild(button);
+  return button;
+}
+function convertToCelsius() {
+  const container = document.getElementById("basic-data");
+  const button = document.createElement("button");
+  button.classList.add("convertToCelsius");
+  button.innerHTML = "Convert to °C";
+  if (
+    container.contains(document.getElementsByClassName("convertToCelsius")[0])
+  ) {
+    return;
+  }
+  container.appendChild(button);
+  return button;
+}
 
-export { basicData, additionalData, errorMsg, errorClean };
+function mainConverterF(tempF, feelslikeF, windspeedM) {
+  const temperatureToF =
+    document.getElementsByClassName("currentTemperature")[0];
+  temperatureToF.innerHTML = tempF + " °F";
+  const feelslikeToF = document.getElementsByClassName("feelslikeData")[0];
+  feelslikeToF.innerHTML = "Feels Like" + "<br>" + feelslikeF + " °F";
+  const windspeedToM = document.getElementsByClassName("windspeedData")[0];
+  windspeedToM.innerHTML = "Wind Speed" + "<br>" + windspeedM + " mph";
+}
+function mainConverterC(tempC, feelslikeC, windspeedK) {
+  const temperatureToC =
+    document.getElementsByClassName("currentTemperature")[0];
+  temperatureToC.innerHTML = tempC + " °C";
+  const feelslikeToC = document.getElementsByClassName("feelslikeData")[0];
+  feelslikeToC.innerHTML = "Feels Like" + "<br>" + feelslikeC + " °C";
+  const windspeedToK = document.getElementsByClassName("windspeedData")[0];
+  windspeedToK.innerHTML = "Wind Speed" + "<br>" + windspeedK + " kph";
+}
+
+export {
+  basicData,
+  additionalData,
+  errorMsg,
+  errorClean,
+  convertToCelsius,
+  convertToFahrenheit,
+  mainConverterF,
+  mainConverterC,
+};
