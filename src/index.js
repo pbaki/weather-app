@@ -1,7 +1,7 @@
 import "./style.css";
 import { Key } from "./myKey";
-import { basicData, additionalData } from "./mainDOM";
-import { dailyButton, hourlyButton, daily } from "./forecastDOM";
+import { basicData, additionalData, errorMsg } from "./mainDOM";
+import { daily } from "./forecastDOM";
 
 class Weather {
   constructor(
@@ -118,16 +118,59 @@ function takeLocation() {
 }
 takeLocation();
 
-async function apiRequest(whatLocation) {
+async function ipRequest() {
   try {
     const request = await fetch(
-      `https://api.weatherapi.com/v1/forecast.json?key=${Key}&q=${whatLocation}&days=3`,
+      `https://api.weatherapi.com/v1/ip.json?key=${Key}&q=auto:ip`,
       {
         mode: "cors",
       }
     );
     const response = await request.json();
     console.log(response);
+    const data = {
+      ip: response.ip,
+      city: response.city,
+      country: response.country_name,
+    };
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+ipRequest()
+  .then((data) => {
+    let ip = data.ip;
+    fireRequest(ip);
+  })
+  .catch((error) => {
+    console.log(error);
+    fireRequest("London");
+  });
+
+async function apiRequest(whatLocation) {
+  try {
+    function passData() {
+      if (whatLocation == "krakow") {
+        let passData = whatLocation + " " + "pl";
+        return passData;
+      } else {
+        let passData = whatLocation;
+        return passData;
+      }
+    }
+    let betterLookup = await passData();
+    console.log(whatLocation);
+    console.log(betterLookup);
+
+    const request = await fetch(
+      `https://api.weatherapi.com/v1/forecast.json?key=${Key}&q=${betterLookup}&days=3`,
+      {
+        mode: "cors",
+      }
+    );
+    const response = await request.json();
+
     const DataObject = {
       basic_data: {
         country: response.location.country,
@@ -201,41 +244,44 @@ async function apiRequest(whatLocation) {
   }
 }
 function fireRequest(inputvalue) {
-  apiRequest(inputvalue).then((data) => {
-    const {
-      country,
-      city,
-      local_time,
-      condition,
-      condition_icon,
-      humidity,
-      sunrise,
-      sunset,
-    } = data.basic_data;
-    const currentCelsiusData = data.celsius;
-    const currentFahrenheitData = data.fahrenheit;
-    const dailyForecastData = data.forecast.forecast_per_day;
-    const hourlyForecastData = data.forecast.forecast_per_hour;
-    const currenWeather = new Weather(
-      country,
-      city,
-      local_time,
-      condition,
-      condition_icon,
-      humidity,
-      sunrise,
-      sunset,
-      currentCelsiusData,
-      currentFahrenheitData,
-      hourlyForecastData
-    );
-    const dailyForecastObject = new dailyForecast(dailyForecastData);
-    const hourlyForecastObject = new hourlyForecast(hourlyForecastData);
-    dailyForecastObject.generateDailyData();
-    dailyForecastObject.generateDailyDataButton();
-    hourlyForecastObject.generateHourlyDataButton();
-    console.log(data);
-    currenWeather.basicDataDOM();
-    currenWeather.additionalDataDOM();
-  });
+  apiRequest(inputvalue)
+    .then((data) => {
+      const {
+        country,
+        city,
+        local_time,
+        condition,
+        condition_icon,
+        humidity,
+        sunrise,
+        sunset,
+      } = data.basic_data;
+      const currentCelsiusData = data.celsius;
+      const currentFahrenheitData = data.fahrenheit;
+      const dailyForecastData = data.forecast.forecast_per_day;
+      const hourlyForecastData = data.forecast.forecast_per_hour;
+      const currenWeather = new Weather(
+        country,
+        city,
+        local_time,
+        condition,
+        condition_icon,
+        humidity,
+        sunrise,
+        sunset,
+        currentCelsiusData,
+        currentFahrenheitData,
+        hourlyForecastData
+      );
+      const dailyForecastObject = new dailyForecast(dailyForecastData);
+      const hourlyForecastObject = new hourlyForecast(hourlyForecastData);
+      dailyForecastObject.generateDailyData();
+      dailyForecastObject.generateDailyDataButton();
+      hourlyForecastObject.generateHourlyDataButton();
+      currenWeather.basicDataDOM();
+      currenWeather.additionalDataDOM();
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
