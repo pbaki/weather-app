@@ -70,7 +70,6 @@ function daily(date, condition_icon, temp, conditionText) {
   dailyDataContainer.appendChild(Container);
 }
 
-//Not used yet
 function hourly(date, condition_icon, temp, conditionText) {
   let hourlyDataContainer = document.getElementById("data-bar");
 
@@ -78,7 +77,12 @@ function hourly(date, condition_icon, temp, conditionText) {
   hourlyDateHolder.classList.add("hourlyDateHolder");
   let cutYear = date.split("-").slice(1, 3);
   let result = cutYear.join("/");
-  hourlyDateHolder.innerHTML = result;
+  if (result.split("")[6] == 0) {
+    result = result.split("");
+    let temp = result.splice(6, 1);
+    result = result.join("");
+  }
+  if (result) hourlyDateHolder.innerHTML = result;
 
   let hourlyConditionIcon = document.createElement("img");
   hourlyConditionIcon.classList.add("hourlyConditionIcon");
@@ -115,4 +119,76 @@ function dataBarScroll() {
 }
 dataBarScroll();
 
-export { daily, hourly };
+function dailyConverterF(dailyForecast) {
+  const temperatureToF = document.getElementsByClassName(
+    "dailyTemperatureHolder"
+  );
+  if (temperatureToF[0]) {
+    for (let i = 0; i < Object.keys(dailyForecast).length; i++) {
+      let temperatureNow = dailyForecast["day" + i].avg_tempF;
+      temperatureToF[i].innerHTML = temperatureNow + " °F";
+    }
+  }
+}
+function dailyConverterC(dailyForecast) {
+  const temperatureToC = document.getElementsByClassName(
+    "dailyTemperatureHolder"
+  );
+  if (temperatureToC[0]) {
+    for (let i = 0; i < Object.keys(dailyForecast).length; i++) {
+      let temperatureNow = dailyForecast["day" + i].avg_tempC;
+      temperatureToC[i].innerHTML = temperatureNow + " °C";
+    }
+  }
+}
+
+function hourlyConverterF(hourlyForecast) {
+  const temperatureToFHourly = document.getElementsByClassName(
+    "hourlyTemperatureHolder"
+  );
+  if (temperatureToFHourly[0]) {
+    for (let i = 0; i < Object.keys(hourlyForecast).length; i++) {
+      for (let k = 0; k < 24; k++) {
+        let temperature =
+          hourlyForecast["day" + i].hour["hour" + k].temperatureF;
+        if (i == 0) {
+          temperatureToFHourly[k].innerHTML = temperature + " °F";
+        } else if (i == 1) {
+          temperatureToFHourly[24 + k].innerHTML = temperature + " °F";
+        } else {
+          temperatureToFHourly[48 + k].innerHTML = temperature + " °F";
+        }
+      }
+    }
+  }
+}
+
+function hourlyConverterC(hourlyForecast) {
+  const temperatureToCHourly = document.getElementsByClassName(
+    "hourlyTemperatureHolder"
+  );
+  if (temperatureToCHourly[0]) {
+    for (let i = 0; i < Object.keys(hourlyForecast).length; i++) {
+      for (let k = 0; k < 24; k++) {
+        let temperature =
+          hourlyForecast["day" + i].hour["hour" + k].temperatureC;
+        if (i == 0) {
+          temperatureToCHourly[k].innerHTML = temperature + " °C";
+        } else if (i == 1) {
+          temperatureToCHourly[24 + k].innerHTML = temperature + " °C";
+        } else {
+          temperatureToCHourly[48 + k].innerHTML = temperature + " °C";
+        }
+      }
+    }
+  }
+}
+
+export {
+  daily,
+  hourly,
+  dailyConverterF,
+  dailyConverterC,
+  hourlyConverterF,
+  hourlyConverterC,
+};

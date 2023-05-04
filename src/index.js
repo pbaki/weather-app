@@ -10,7 +10,14 @@ import {
   mainConverterF,
   mainConverterC,
 } from "./mainDOM";
-import { daily } from "./forecastDOM";
+import {
+  daily,
+  hourly,
+  dailyConverterF,
+  dailyConverterC,
+  hourlyConverterF,
+  hourlyConverterC,
+} from "./forecastDOM";
 
 class Weather {
   constructor(
@@ -103,6 +110,16 @@ class dailyForecast {
       this.generateDailyData();
     });
   }
+  dataConverter() {
+    let button = document.getElementsByClassName("convertToFahrenheit")[0];
+    let button2 = document.getElementsByClassName("convertToCelsius")[0];
+    button.addEventListener("click", () => {
+      dailyConverterF(this.dailyForecast);
+    });
+    button2.addEventListener("click", () => {
+      dailyConverterC(this.dailyForecast);
+    });
+  }
 }
 class hourlyForecast {
   constructor(hourlyForecast) {
@@ -122,7 +139,7 @@ class hourlyForecast {
           this.hourlyForecast["day" + i].hour["hour" + k].temperatureC;
         let conditionText =
           this.hourlyForecast["day" + i].hour["hour" + k].condition;
-        daily(dateNow, conditionIconNow, temperatureNow, conditionText);
+        hourly(dateNow, conditionIconNow, temperatureNow, conditionText);
       }
     }
   }
@@ -130,6 +147,16 @@ class hourlyForecast {
     const button = document.getElementsByClassName("hourlyButton")[0];
     button.addEventListener("click", () => {
       this.generateHourlyData();
+    });
+  }
+  dataConverter() {
+    let button = document.getElementsByClassName("convertToFahrenheit")[0];
+    let button2 = document.getElementsByClassName("convertToCelsius")[0];
+    button.addEventListener("click", () => {
+      hourlyConverterF(this.hourlyForecast);
+    });
+    button2.addEventListener("click", () => {
+      hourlyConverterC(this.hourlyForecast);
     });
   }
 }
@@ -194,7 +221,7 @@ async function apiRequest(whatLocation) {
       }
     );
     const response = await request.json();
-
+    console.log(response);
     const DataObject = {
       basic_data: {
         country: response.location.country,
@@ -305,7 +332,9 @@ function fireRequest(inputvalue) {
       currenWeather.dataConverter();
       dailyForecastObject.generateDailyData();
       dailyForecastObject.generateDailyDataButton();
+      dailyForecastObject.dataConverter();
       hourlyForecastObject.generateHourlyDataButton();
+      hourlyForecastObject.dataConverter();
     })
     .catch((error) => {
       console.log(error);
