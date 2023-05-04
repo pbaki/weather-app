@@ -245,3 +245,26 @@ input:focus {
     font-size: 21px;
   }
 }
+@media (max-height: 790px) {
+  #main {
+    gap: 0px;
+    margin-top: -10px;
+  }
+}
+@media (max-height: 690px) {
+  .dailyContainer {
+    gap: 3px;
+  }
+  #data-bar {
+    margin-top: 0;
+  }
+  .currentTemperature {
+    margin-top: -7px;
+  }
+  #additional-data {
+    margin-bottom: 0;
+  }
+  #additional-data p {
+    padding: 4px 0px;
+  }
+}
