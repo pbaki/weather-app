@@ -90,7 +90,8 @@ input:focus {
 }
 .cityCountryNameName {
   font-size: xx-large;
-  padding: 10px;
+  padding: 0px 10px 10px 10px;
+  margin-top: 13px;
 }
 #basic-data {
   display: flex;
@@ -267,4 +268,8 @@ input:focus {
   #additional-data p {
     padding: 4px 0px;
   }
+}
+.wrongInput {
+  position: absolute;
+  font-size: 0.9rem;
 }

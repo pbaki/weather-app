@@ -1,6 +1,6 @@
 import "./style.css";
 import { Key } from "./myKey";
-import { basicData, additionalData, errorMsg } from "./mainDOM";
+import { basicData, additionalData, errorMsg, errorClean } from "./mainDOM";
 import { daily } from "./forecastDOM";
 
 class Weather {
@@ -149,6 +149,7 @@ ipRequest()
   });
 
 async function apiRequest(whatLocation) {
+  errorClean();
   try {
     function passData() {
       if (whatLocation == "krakow") {
@@ -241,6 +242,7 @@ async function apiRequest(whatLocation) {
     return DataObject;
   } catch (error) {
     console.log(error);
+    errorMsg();
   }
 }
 function fireRequest(inputvalue) {

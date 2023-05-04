@@ -134,5 +134,22 @@ function additionalData(
     // );
   }
 }
+function errorMsg() {
+  const form = document.getElementsByClassName("form")[0];
+  if (form.childNodes.length == 2) {
+    return;
+  }
+  const wrongInput = document.createElement("div");
+  wrongInput.classList.add("wrongInput");
+  wrongInput.innerHTML =
+    'Location not found. Try "City", "City, State" or "City, Country".';
+  form.appendChild(wrongInput);
+}
+function errorClean() {
+  const form = document.getElementsByClassName("form")[0];
+  if (form.childNodes.length == 2) {
+    form.lastChild.remove();
+  }
+}
 
-export { basicData, additionalData };
+export { basicData, additionalData, errorMsg, errorClean };
