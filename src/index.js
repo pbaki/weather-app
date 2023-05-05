@@ -17,6 +17,7 @@ import {
   dailyConverterC,
   hourlyConverterF,
   hourlyConverterC,
+  arrowsFunctionality,
 } from "./forecastDOM";
 
 class Weather {
@@ -345,6 +346,9 @@ function fireRequest(inputvalue) {
       dailyForecastObject.dataConverter();
       hourlyForecastObject.generateHourlyDataButton();
       hourlyForecastObject.dataConverter();
+    })
+    .then(() => {
+      arrowsFunctionality();
     })
     .catch((error) => {
       console.log(error);

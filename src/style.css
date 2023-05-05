@@ -134,6 +134,7 @@ input:focus {
   display: flex;
   gap: 30px;
   align-items: center;
+  transition: scroll 0.3s ease-in-out;
 }
 .dailyContainer,
 .hourlyContainer {

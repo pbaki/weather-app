@@ -187,6 +187,63 @@ function hourlyConverterC(hourlyForecast) {
     }
   }
 }
+function dataBarSlider() {
+  const slidingContainer = document.getElementById("data-bar");
+  let isMouseDown = false;
+  let startX = 0;
+
+  slidingContainer.addEventListener("mousedown", (e) => {
+    isMouseDown = true;
+    startX = e.pageX;
+  });
+
+  slidingContainer.addEventListener("mousemove", (e) => {
+    if (!isMouseDown) {
+      return;
+    }
+    e.preventDefault();
+    const currentX = e.pageX;
+    const distance = startX - currentX;
+    slidingContainer.scrollLeft += distance;
+    startX = currentX;
+  });
+
+  slidingContainer.addEventListener("mouseup", (e) => {
+    isMouseDown = false;
+    startX = 0;
+  });
+  slidingContainer.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].pageX;
+  });
+
+  slidingContainer.addEventListener("touchmove", (e) => {
+    e.preventDefault();
+    const currentX = e.touches[0].pageX;
+    const distance = startX - currentX;
+    slidingContainer.scrollLeft += distance;
+  });
+
+  slidingContainer.addEventListener("touchend", (e) => {
+    startX = 0;
+  });
+}
+dataBarSlider();
+
+function arrowsFunctionality() {
+  const slidingContainer = document.getElementById("data-bar");
+  const leftButton = document.getElementsByClassName("leftArrow")[0];
+  const rightButton = document.getElementsByClassName("rightArrow")[0];
+  const elementWidth =
+    slidingContainer.querySelector(".dailyContainer").offsetWidth;
+  console.log(elementWidth);
+  leftButton.addEventListener("click", () => {
+    slidingContainer.scrollLeft -= 3 * elementWidth;
+  });
+
+  rightButton.addEventListener("click", () => {
+    slidingContainer.scrollLeft += 3 * elementWidth;
+  });
+}
 
 export {
   daily,
@@ -195,4 +252,5 @@ export {
   dailyConverterC,
   hourlyConverterF,
   hourlyConverterC,
+  arrowsFunctionality,
 };
