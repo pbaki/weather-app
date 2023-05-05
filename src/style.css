@@ -213,7 +213,7 @@ input:focus {
 
 @media (min-height: 880px) {
   #main {
-    gap: 34px;
+    gap: 30px;
   }
   #additional-data {
     margin: 20px;
@@ -292,5 +292,6 @@ input:focus {
 }
 .wrongInput {
   position: absolute;
-  font-size: 0.9rem;
+  font-size: 0.84rem;
+  margin-top: -4px;
 }
