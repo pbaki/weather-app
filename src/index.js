@@ -118,7 +118,15 @@ class dailyForecast {
   generateDailyDataButton() {
     const button = document.getElementsByClassName("dailyButton")[0];
     button.addEventListener("click", () => {
-      this.generateDailyData();
+      const isFar =
+        document.getElementsByClassName("currentTemperature")[0].innerHTML;
+      let isFarArray = isFar.split("");
+      if (isFarArray[isFarArray.length - 1] == "F") {
+        this.generateDailyData();
+        dailyConverterF(this.dailyForecast);
+      } else {
+        this.generateDailyData();
+      }
     });
   }
   dataConverter() {
@@ -157,7 +165,15 @@ class hourlyForecast {
   generateHourlyDataButton() {
     const button = document.getElementsByClassName("hourlyButton")[0];
     button.addEventListener("click", () => {
-      this.generateHourlyData();
+      const isFar =
+        document.getElementsByClassName("currentTemperature")[0].innerHTML;
+      let isFarArray = isFar.split("");
+      if (isFarArray[isFarArray.length - 1] == "F") {
+        this.generateHourlyData();
+        hourlyConverterF(this.hourlyForecast);
+      } else {
+        this.generateHourlyData();
+      }
     });
   }
   dataConverter() {
