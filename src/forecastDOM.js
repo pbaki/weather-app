@@ -58,6 +58,9 @@ function daily(date, condition_icon, temp, conditionText) {
 
   let dailyTemperatureHolder = document.createElement("h2");
   dailyTemperatureHolder.classList.add("dailyTemperatureHolder");
+  let moreText = document.createElement("p");
+  moreText.classList.add("moreText");
+  moreText.innerHTML = "Avg temp: " + "<br>";
   dailyTemperatureHolder.innerHTML = temp + " °C";
 
   let Container = document.createElement("div");
@@ -65,6 +68,7 @@ function daily(date, condition_icon, temp, conditionText) {
   Container.appendChild(dailyConditionIcon);
   Container.appendChild(dailyConditionText);
   Container.appendChild(dailyDateHolder);
+  Container.appendChild(moreText);
   Container.appendChild(dailyTemperatureHolder);
 
   dailyDataContainer.appendChild(Container);

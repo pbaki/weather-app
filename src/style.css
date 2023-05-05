@@ -204,6 +204,17 @@ input:focus {
 .convertToCelsius:hover {
   background-color: var(--darkOrange);
 }
+.wrongInput {
+  position: absolute;
+  font-size: 0.84rem;
+  margin-top: -4px;
+}
+.moreText {
+  font-size: 0.8rem;
+  opacity: 0.7;
+  margin-top: -4px;
+  margin-bottom: -7px;
+}
 
 @media (min-width: 860px) {
   form {
@@ -265,6 +276,10 @@ input:focus {
   .dailyConditionText {
     font-size: 21px;
   }
+  .moreText {
+    margin-bottom: -11px;
+    font-size: 0.9rem;
+  }
 }
 @media (max-height: 790px) {
   #main {
@@ -289,9 +304,4 @@ input:focus {
   #additional-data p {
     padding: 4px 0px;
   }
-}
-.wrongInput {
-  position: absolute;
-  font-size: 0.84rem;
-  margin-top: -4px;
 }
