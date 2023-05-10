@@ -159,9 +159,9 @@ input:focus {
 .leftArrow,
 .rightArrow {
   border: 10px solid black;
-  border-width: 13px 0 13px 21px;
+  border-width: 15px 0 15px 23px;
   border-color: transparent transparent transparent var(--orange);
-  border-radius: 5px;
+  border-radius: 3px;
 }
 .leftArrow {
   transform: rotate(180deg);
@@ -169,6 +169,7 @@ input:focus {
 .leftArrow:hover,
 .rightArrow:hover {
   border-color: transparent transparent transparent var(--darkOrange);
+  cursor: pointer;
 }
 
 .convertButtonContainer {
