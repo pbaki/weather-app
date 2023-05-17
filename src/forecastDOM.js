@@ -247,7 +247,7 @@ function phoneSlider() {
 
   slidingContainer.addEventListener("touchend", () => {
     isTouched = false;
-    const deceleration = 0.95;
+    const deceleration = 0.9;
 
     function inertiaScroll() {
       if (Math.abs(velocity) > 0.01) {
