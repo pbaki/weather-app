@@ -14,6 +14,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: "Weather app",
       template: "./src/index.html",
+      favicon: "./src/Icons/cloud-icon.png",
     }),
     new MiniCssExtractPlugin({
       filename: "style.css",
