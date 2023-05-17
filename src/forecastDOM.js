@@ -212,22 +212,55 @@ function dataBarSlider() {
     isMouseDown = false;
     startX = 0;
   });
+}
+dataBarSlider();
+function phoneSlider() {
+  const slidingContainer = document.getElementById("data-bar");
+  let startX = 0;
+  let startTime = 0;
+  let velocity = 0;
+  let isTouched = false;
+
   slidingContainer.addEventListener("touchstart", (e) => {
     startX = e.touches[0].pageX;
+    startTime = Date.now();
+    isTouched = true;
+    velocity = 0;
   });
 
   slidingContainer.addEventListener("touchmove", (e) => {
+    if (!isTouched) {
+      return;
+    }
+
     e.preventDefault();
     const currentX = e.touches[0].pageX;
-    const distance = (startX - currentX) * 0.5;
+    const distance = startX - currentX;
     slidingContainer.scrollLeft += distance;
+    startX = currentX;
+
+    const currentTime = Date.now();
+    const timeDiff = currentTime - startTime;
+    velocity = distance / timeDiff;
+    startTime = currentTime;
   });
 
-  slidingContainer.addEventListener("touchend", (e) => {
-    startX = 0;
+  slidingContainer.addEventListener("touchend", () => {
+    isTouched = false;
+    const deceleration = 0.95;
+
+    function inertiaScroll() {
+      if (Math.abs(velocity) > 0.01) {
+        slidingContainer.scrollLeft += velocity;
+        velocity *= deceleration;
+        requestAnimationFrame(inertiaScroll);
+      }
+    }
+
+    inertiaScroll();
   });
 }
-dataBarSlider();
+phoneSlider();
 
 function arrowsFunctionality() {
   const slidingContainer = document.getElementById("data-bar");
