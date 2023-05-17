@@ -219,7 +219,7 @@ function dataBarSlider() {
   slidingContainer.addEventListener("touchmove", (e) => {
     e.preventDefault();
     const currentX = e.touches[0].pageX;
-    const distance = startX - currentX;
+    const distance = (startX - currentX) * 0.5;
     slidingContainer.scrollLeft += distance;
   });
 
